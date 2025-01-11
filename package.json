@@ -1,0 +1,63 @@
+{
+  "name": "spawn-streaming",
+  "version": "0.0.0",
+  "description": "Formats spawn with prefix, colors, and throttle",
+  "keywords": [
+    "spawn",
+    "cross-spawn",
+    "cross-spawn-cb",
+    "streaming",
+    "format",
+    "prefix",
+    "colors",
+    "throttle"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kmalakoff/spawn-streaming.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/cjs/index.cjs",
+  "module": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsds build",
+    "format": "biome check --write --unsafe src/ test/",
+    "test": "tsds test:node --no-timeouts",
+    "test:engines": "nvu engines npm test",
+    "version": "tsds version"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cross-spawn-cb": "^2.1.2",
+    "end-of-stream": "^1.4.4",
+    "lodash.throttle": "^4.1.1",
+    "queue-cb": "^1.4.10"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.10.5",
+    "cr": "^0.1.0",
+    "is-version": "^0.2.5",
+    "pinkie-promise": "^2.0.1"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "tsds": {
+    "source": "src/index.ts"
+  }
+}
