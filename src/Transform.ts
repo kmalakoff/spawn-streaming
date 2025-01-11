@@ -56,7 +56,7 @@ export default class Transform {
   }
 
   private _writeLine(line: string) {
-    const outputString = this.options.prefix ? `${c.bold(this.color(this.options.prefix))}:${line}\n` : `${line}\n`;
+    const outputString = this.options.prefix ? `${c.bold(this.color(this.options.prefix))}: ${line}\n` : `${line}\n`;
     if (this.spawnOptions.encoding !== undefined) this._output += outputString;
     else if (this.spawnOptions.stdio === 'inherit') (this._output as NodeJS.WriteStream).write(outputString);
   }
