@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.1.2",
+    "cross-spawn-cb": "^2.1.4",
     "end-of-stream": "^1.4.4",
     "lodash.throttle": "^4.1.1",
     "queue-cb": "^1.4.11"
