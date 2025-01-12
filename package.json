@@ -1,6 +1,6 @@
 {
   "name": "spawn-streaming",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Formats spawn with prefix, colors, and throttle",
   "keywords": [
     "spawn",
@@ -41,14 +41,14 @@
     "cross-spawn-cb": "^2.1.2",
     "end-of-stream": "^1.4.4",
     "lodash.throttle": "^4.1.1",
-    "queue-cb": "^1.4.10"
+    "queue-cb": "^1.4.11"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.5",
     "cr": "^0.1.0",
-    "is-version": "^0.2.5",
+    "is-version": "^0.2.7",
     "pinkie-promise": "^2.0.1"
   },
   "engines": {
