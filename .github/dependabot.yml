@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: weekly
     ignore:
-      - dependency-name: 'string-argv'
+      - dependency-name: 'readable-stream'
       - dependency-name: '@types/mocha'
       - dependency-name: '@types/node'
   - package-ecosystem: 'github-actions'
