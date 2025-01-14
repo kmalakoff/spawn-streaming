@@ -1,1 +1,1 @@
-ignores: ["spawn-streaming", "@types/*", "@biomejs/*"]
+ignores: ["@types/*", "spawn-streaming", "@biomejs/*"]
