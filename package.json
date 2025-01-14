@@ -40,7 +40,7 @@
     "colors": "^1.4.0",
     "cross-spawn-cb": "^2.1.6",
     "end-of-stream": "^1.4.4",
-    "queue-cb": "^1.4.11",
+    "queue-cb": "^1.4.12",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
