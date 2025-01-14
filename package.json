@@ -38,18 +38,17 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.1.6",
+    "cross-spawn-cb": "*",
     "end-of-stream": "^1.4.4",
-    "queue-cb": "^1.4.12",
+    "queue-cb": "*",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.5",
+    "@types/mocha": "*",
+    "@types/node": "*",
     "cr": "^0.1.0",
-    "is-version": "^0.2.7",
-    "pinkie-promise": "^2.0.1"
+    "is-version": "^0.2.8",
+    "pinkie-promise": "*"
   },
   "engines": {
     "node": ">=0.8"
