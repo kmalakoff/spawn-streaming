@@ -18,6 +18,11 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
   const color = options.prefix ? nextColor() : null;
   const outputs = { stdout: null, stderr: null };
 
+  if (cp.stdout && process.stdout.getMaxListeners) {
+    process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
+    process.stderr.setMaxListeners(process.stderr.getMaxListeners() + 1);
+  }
+
   const queue = new Queue();
   if (cp.stdout) {
     if (stdio === 'inherit') pipeline(cp.stdout, process.stdout, options, color);
@@ -39,6 +44,11 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
   }
   queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: 'utf8' }));
   queue.await((err) => {
+    if (cp.stdout && process.stdout.getMaxListeners) {
+      process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
+      process.stderr.setMaxListeners(process.stderr.getMaxListeners() - 1);
+    }
+
     const res = (err ? err : {}) as SpawnResult;
     res.stdout = outputs.stdout ? outputs.stdout.output : null;
     res.stderr = outputs.stderr ? outputs.stderr.output : null;
