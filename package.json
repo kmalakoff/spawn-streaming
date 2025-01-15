@@ -38,16 +38,16 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "*",
+    "cross-spawn-cb": "^2.1.6",
     "end-of-stream": "^1.4.4",
-    "queue-cb": "*",
+    "queue-cb": "^1.4.13",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
-    "cr": "^0.1.0",
-    "is-version": "^0.2.8",
+    "cr": "*",
+    "is-version": "*",
     "pinkie-promise": "*"
   },
   "engines": {
