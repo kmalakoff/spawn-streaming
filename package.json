@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.1.6",
+    "cross-spawn-cb": "^2.1.7",
     "end-of-stream": "^1.4.4",
     "queue-cb": "^1.4.13",
     "readable-stream": "^2.3.8"
