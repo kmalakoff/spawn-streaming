@@ -1,6 +1,6 @@
 import c from 'colors';
 import { Transform } from 'readable-stream';
-import type { ColorFunction } from './types';
+import type { ColorFunction } from '../types';
 
 const regEx = /\r\n|[\n\v\f\r\x85\u2028\u2029]/g;
 
