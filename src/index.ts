@@ -3,8 +3,6 @@ import worker from './worker';
 import type { SpawnCallback, SpawnOptions, StreamingOptions } from './types';
 
 export * from './types';
-export { default as Transform } from './prefixTransform';
-export { default as nextColor } from './nextColor';
 export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options?: StreamingOptions | SpawnCallback, callback?: SpawnCallback) {
   if (typeof options === 'function') {
     callback = options as SpawnCallback;
