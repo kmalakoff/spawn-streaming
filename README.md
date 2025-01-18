@@ -1,6 +1,6 @@
 ## spawn-streaming
 
-Formats spawn with prefix, colors, and throttle
+Formats spawn with prefix and colors
 
 ```
 import spawn from 'spawn-streaming'

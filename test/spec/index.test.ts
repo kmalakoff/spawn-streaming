@@ -6,6 +6,9 @@ import getLines from '../lib/getLines.cjs';
 // @ts-ignore
 import spawnStreaming from 'spawn-streaming';
 
+const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
+const NODE = isWindows ? 'node.exe' : 'node';
+
 describe('index', () => {
   (() => {
     // patch and restore promise
@@ -21,7 +24,7 @@ describe('index', () => {
   })();
 
   it('inherit', (done) => {
-    spawnStreaming('node', ['--version'], { stdio: 'inherit' }, (err, res) => {
+    spawnStreaming(NODE, ['--version'], { stdio: 'inherit' }, (err, res) => {
       if (err) return done(err.message);
       assert.equal(res.stdout, null);
       assert.equal(res.stderr, null);
@@ -30,7 +33,7 @@ describe('index', () => {
   });
 
   it('encoding utf8', (done) => {
-    spawnStreaming('node', ['--version'], { encoding: 'utf8' }, (err, res) => {
+    spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, (err, res) => {
       if (err) return done(err.message);
       assert.ok(isVersion(getLines(res.stdout).slice(-1)[0], 'v'));
       assert.equal(res.stderr, '');
@@ -39,7 +42,7 @@ describe('index', () => {
   });
 
   it('encoding utf8', (done) => {
-    spawnStreaming('node', ['--version'], { encoding: 'utf8' }, { prefix: 'boom' }, (err, res) => {
+    spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, { prefix: 'boom' }, (err, res) => {
       if (err) return done(err.message);
       assert.ok(res.stdout.indexOf('boom') >= 0);
       assert.ok(isVersion(getLines(res.stdout).slice(-1)[0], 'v'));

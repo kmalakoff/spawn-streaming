@@ -1,9 +1,9 @@
 import spawn, { crossSpawn, type SpawnResult } from 'cross-spawn-cb';
 import eos from 'end-of-stream';
 import Queue from 'queue-cb';
-import concatWritable from './concatWritable';
-import nextColor from './nextColor';
-import prefixTransform from './prefixTransform';
+import concatWritable from './lib/concatWritable';
+import nextColor from './lib/nextColor';
+import prefixTransform from './lib/prefixTransform';
 
 import type { SpawnOptions, StreamingOptions } from './types';
 
