@@ -1,7 +1,7 @@
 {
   "name": "spawn-streaming",
   "version": "1.0.14",
-  "description": "Formats spawn with prefix, colors, and throttle",
+  "description": "Formats spawn with prefix and colors",
   "keywords": [
     "spawn",
     "cross-spawn",
@@ -9,8 +9,7 @@
     "streaming",
     "format",
     "prefix",
-    "colors",
-    "throttle"
+    "colors"
   ],
   "repository": {
     "type": "git",
