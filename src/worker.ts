@@ -1,5 +1,5 @@
-import once from 'call-once-fn';
 import spawn, { crossSpawn, type SpawnResult } from 'cross-spawn-cb';
+import oo from 'on-one';
 import Queue from 'queue-cb';
 import concatWritable from './lib/concatWritable';
 import nextColor from './lib/nextColor';
@@ -30,14 +30,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
       outputs.stdout = concatWritable((output) => {
         outputs.stdout.output = output.toString(encoding || 'utf8');
       });
-      queue.defer((cb) => {
-        const res = pipeline(cp.stdout, outputs.stdout, options, color);
-        const end = once(cb);
-        res.on('error', end);
-        res.on('end', end);
-        res.on('close', end);
-        res.on('finish', end);
-      });
+      queue.defer(oo.bind(null, pipeline(cp.stdout, outputs.stdout, options, color), ['error', 'end', 'close', 'finish']));
     }
   }
   if (cp.stderr) {
@@ -46,14 +39,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
       outputs.stderr = concatWritable((output) => {
         outputs.stderr.output = output.toString(encoding || 'utf8');
       });
-      queue.defer((cb) => {
-        const res = pipeline(cp.stderr, outputs.stderr, options, color);
-        const end = once(cb);
-        res.on('error', end);
-        res.on('end', end);
-        res.on('close', end);
-        res.on('finish', end);
-      });
+      queue.defer(oo.bind(null, pipeline(cp.stderr, outputs.stderr, options, color), ['error', 'end', 'close', 'finish']));
     }
   }
   queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: 'utf8' }));
