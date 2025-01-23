@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.1.17",
+    "cross-spawn-cb": "^2.1.18",
     "on-one": "^0.1.2",
     "queue-cb": "^1.4.14",
     "readable-stream": "^2.3.8"
