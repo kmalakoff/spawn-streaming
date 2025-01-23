@@ -36,9 +36,9 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "call-once-fn": "^1.0.10",
     "colors": "^1.4.0",
     "cross-spawn-cb": "^2.1.13",
+    "on-one": "^0.1.1",
     "queue-cb": "^1.4.13",
     "readable-stream": "^2.3.8"
   },
