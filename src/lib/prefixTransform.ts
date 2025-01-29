@@ -1,7 +1,8 @@
 import c from 'colors';
-import newlineIterator from 'newline-iterator';
 import { Transform } from 'readable-stream';
 import type { ColorFunction } from '../types';
+
+const REGEX_NEW_LINE = /\r?\n|\r/g;
 
 export default function prefixTransform(prefix: string, color: ColorFunction) {
   let last = '';
@@ -10,14 +11,8 @@ export default function prefixTransform(prefix: string, color: ColorFunction) {
 
   return new Transform({
     transform(chunk, _enc, callback) {
-      const string = last + chunk.toString('utf8');
-      const lines = [];
-      const iterator = newlineIterator(string);
-      let next = iterator.next();
-      while (!next.done) {
-        lines.push(next.value);
-        next = iterator.next();
-      }
+      const more = last + chunk.toString('utf8');
+      const lines = more.split(REGEX_NEW_LINE);
       last = lines.pop();
       lines.forEach((line) => this.push(createLine(line)));
       callback();
