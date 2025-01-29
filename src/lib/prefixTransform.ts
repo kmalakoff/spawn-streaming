@@ -2,7 +2,7 @@ import c from 'colors';
 import { Transform } from 'readable-stream';
 import type { ColorFunction } from '../types';
 
-const REGEX_NEW_LINE = /\r\n|[\n\v\f\r\x85\u2028\u2029]/g;
+const REGEX_NEW_LINE = /\r?\n|\r/g;
 
 export default function prefixTransform(prefix: string, color: ColorFunction) {
   let last = '';
