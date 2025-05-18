@@ -18,13 +18,14 @@
   "license": "MIT",
   "type": "module",
   "exports": {
-    "import": "./dist/esm/index.mjs",
-    "require": "./dist/cjs/index.cjs",
-    "types": "./dist/types/index.d.ts"
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "main": "dist/cjs/index.cjs",
-  "module": "dist/esm/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/cjs/index.d.cts",
   "files": [
     "dist"
   ],
@@ -37,9 +38,9 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.1.23",
-    "on-one": "^0.1.4",
-    "queue-cb": "^1.4.16",
+    "cross-spawn-cb": "^2.1.24",
+    "on-one": "^0.1.5",
+    "queue-cb": "^1.4.17",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
