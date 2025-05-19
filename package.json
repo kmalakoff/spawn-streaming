@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.2.0",
-    "on-one": "^0.1.5",
+    "cross-spawn-cb": "^2.2.1",
+    "on-one": "^0.1.6",
     "queue-cb": "^1.5.0",
     "readable-stream": "^2.3.8"
   },
