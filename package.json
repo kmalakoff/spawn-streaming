@@ -1,6 +1,6 @@
 {
   "name": "spawn-streaming",
-  "version": "1.0.36",
+  "version": "1.0.37",
   "description": "Formats spawn with prefix and colors",
   "keywords": [
     "spawn",
