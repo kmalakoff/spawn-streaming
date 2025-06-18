@@ -1,10 +1,9 @@
 import assert from 'assert';
 import isVersion from 'is-version';
 import Pinkie from 'pinkie-promise';
-import getLines from '../lib/getLines.cjs';
-
 // @ts-ignore
 import spawnStreaming from 'spawn-streaming';
+import getLines from '../lib/getLines.cjs';
 
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
 const NODE = isWindows ? 'node.exe' : 'node';
