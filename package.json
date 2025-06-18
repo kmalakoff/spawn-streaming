@@ -39,8 +39,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "cross-spawn-cb": "^2.2.8",
-    "on-one": "^0.1.7",
-    "queue-cb": "^1.5.2",
+    "on-one": "^0.1.8",
+    "queue-cb": "^1.5.3",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
