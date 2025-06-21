@@ -1,10 +1,14 @@
+import StreamCompat from 'readable-stream';
+import Stream from 'stream';
+
+const Transform = Stream.Transform || StreamCompat.Transform;
+
 import c from 'colors';
-import { Transform } from 'readable-stream';
 import type { ColorFunction } from '../types.ts';
 
 const REGEX_NEW_LINE = /\r?\n|\r/g;
 
-export default function prefixTransform(prefix: string, color: ColorFunction) {
+export default function prefixTransform(prefix: string, color: ColorFunction): NodeJS.ReadableStream {
   let last = '';
 
   const createLine = (line) => `${c.bold(color(prefix))}: ${line}\n`;
