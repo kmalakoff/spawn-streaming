@@ -1,7 +1,7 @@
-import type { SpawnCallback, SpawnOptions, StreamingOptions } from './types.js';
-import worker from './worker.js';
+import type { SpawnCallback, SpawnOptions, StreamingOptions } from './types.ts';
+import worker from './worker.ts';
 
-export * from './types.js';
+export * from './types.ts';
 export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options?: StreamingOptions | SpawnCallback, callback?: SpawnCallback) {
   if (typeof options === 'function') {
     callback = options as SpawnCallback;
