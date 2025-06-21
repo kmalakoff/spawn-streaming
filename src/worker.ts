@@ -1,11 +1,11 @@
 import spawn, { crossSpawn, type SpawnResult } from 'cross-spawn-cb';
 import oo from 'on-one';
 import Queue from 'queue-cb';
-import concatWritable from './lib/concatWritable.js';
-import nextColor from './lib/nextColor.js';
-import prefixTransform from './lib/prefixTransform.js';
+import concatWritable from './lib/concatWritable.ts';
+import nextColor from './lib/nextColor.ts';
+import prefixTransform from './lib/prefixTransform.ts';
 
-import type { SpawnOptions, StreamingOptions } from './types.js';
+import type { SpawnOptions, StreamingOptions } from './types.ts';
 
 function pipeline(input, output, options, color) {
   if (options.prefix) return input.pipe(prefixTransform(options.prefix, color)).pipe(output);
