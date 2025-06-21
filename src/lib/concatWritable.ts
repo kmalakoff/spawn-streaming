@@ -1,6 +1,11 @@
-import { Writable } from 'readable-stream';
+import StreamCompat from 'readable-stream';
+import Stream from 'stream';
 
-export default function concatWritable(callback) {
+const Writable = Stream.Writable || StreamCompat.Writable;
+
+export type Callback = (lines: Buffer) => undefined;
+
+export default function concatWritable(callback: Callback): NodeJS.WritableStream {
   const chunks = [];
   const stream = new Writable({
     write: (chunk, _encoding, next) => {

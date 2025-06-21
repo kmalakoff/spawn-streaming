@@ -1,18 +1,18 @@
-import spawn, { crossSpawn, type SpawnResult } from 'cross-spawn-cb';
+import spawn, { crossSpawn, type SpawnError, type SpawnResult } from 'cross-spawn-cb';
 import oo from 'on-one';
 import Queue from 'queue-cb';
 import concatWritable from './lib/concatWritable.ts';
 import nextColor from './lib/nextColor.ts';
 import prefixTransform from './lib/prefixTransform.ts';
 
-import type { SpawnOptions, StreamingOptions } from './types.ts';
+import type { SpawnCallback, SpawnOptions, StreamingOptions } from './types.ts';
 
 function pipeline(input, output, options, color) {
   if (options.prefix) return input.pipe(prefixTransform(options.prefix, color)).pipe(output);
   return input.pipe(output);
 }
 
-export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options: StreamingOptions, callback) {
+export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options: StreamingOptions, callback: SpawnCallback): undefined {
   const { encoding, stdio, ...csOptions } = spawnOptions;
   const cp = crossSpawn(command, args, csOptions);
   const color = options.prefix ? nextColor() : null;
@@ -43,7 +43,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
     }
   }
   queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: 'utf8' }));
-  queue.await((err) => {
+  queue.await((err: SpawnError) => {
     if (cp.stdout && process.stdout.getMaxListeners) {
       process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
       process.stderr.setMaxListeners(process.stderr.getMaxListeners() - 1);
