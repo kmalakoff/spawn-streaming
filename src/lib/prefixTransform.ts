@@ -1,6 +1,6 @@
 import c from 'colors';
 import { Transform } from 'readable-stream';
-import type { ColorFunction } from '../types.js';
+import type { ColorFunction } from '../types.ts';
 
 const REGEX_NEW_LINE = /\r?\n|\r/g;
 
