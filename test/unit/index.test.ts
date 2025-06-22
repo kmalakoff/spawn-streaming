@@ -3,7 +3,7 @@ import isVersion from 'is-version';
 import Pinkie from 'pinkie-promise';
 // @ts-ignore
 import spawnStreaming from 'spawn-streaming';
-import getLines from '../lib/getLines.cjs';
+import getLines from '../lib/getLines.ts';
 
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
 const NODE = isWindows ? 'node.exe' : 'node';
