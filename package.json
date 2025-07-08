@@ -37,10 +37,10 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.4.2",
-    "on-one": "^1.0.1",
-    "queue-cb": "^1.5.5",
+    "colors": "*",
+    "cross-spawn-cb": "*",
+    "on-one": "*",
+    "queue-cb": "*",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
