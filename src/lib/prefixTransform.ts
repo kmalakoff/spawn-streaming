@@ -19,7 +19,9 @@ export default function prefixTransform(prefix: string, color: ColorFunction): N
       const more = last + chunk.toString('utf8');
       const lines = more.split(REGEX_NEW_LINE);
       last = lines.pop();
-      lines.forEach((line) => this.push(createLine(line)));
+      lines.forEach((line) => {
+        this.push(createLine(line));
+      });
       callback();
     },
     flush() {
