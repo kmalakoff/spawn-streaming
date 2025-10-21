@@ -1,6 +1,5 @@
 import assert from 'assert';
 
-// @ts-ignore
 import spawnStreaming from 'spawn-streaming';
 
 describe('exports .ts', () => {

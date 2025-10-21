@@ -1,7 +1,6 @@
 import assert from 'assert';
 import isVersion from 'is-version';
 import Pinkie from 'pinkie-promise';
-// @ts-ignore
 import spawnStreaming from 'spawn-streaming';
 import getLines from '../lib/getLines.ts';
 
