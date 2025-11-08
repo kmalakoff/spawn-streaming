@@ -25,8 +25,10 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
 
   const queue = new Queue();
   if (cp.stdout) {
-    if (stdio === 'inherit') pipeline(cp.stdout, process.stdout, options, color);
-    else {
+    if (stdio === 'inherit') {
+      const stdoutPipe = pipeline(cp.stdout, process.stdout, options, color);
+      queue.defer(oo.bind(null, stdoutPipe, ['error', 'end', 'close', 'finish']));
+    } else {
       outputs.stdout = concatWritable((output) => {
         outputs.stdout.output = output.toString(encoding || 'utf8');
       });
