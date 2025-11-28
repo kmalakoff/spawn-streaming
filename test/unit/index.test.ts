@@ -56,4 +56,10 @@ describe('index', () => {
       done();
     });
   });
+
+  it('throws when stdio inherit and encoding are both specified', () => {
+    assert.throws(() => {
+      spawnStreaming(NODE, ['--version'], { stdio: 'inherit', encoding: 'utf8' }, () => {});
+    }, /mutually exclusive/);
+  });
 });

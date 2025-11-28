@@ -3,6 +3,10 @@ import worker from './worker.ts';
 
 export * from './types.ts';
 export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options?: StreamingOptions | SpawnCallback, callback?: SpawnCallback) {
+  if (spawnOptions.stdio === 'inherit' && spawnOptions.encoding) {
+    throw new Error("Options 'stdio: inherit' and 'encoding' are mutually exclusive. Use 'stdio: inherit' to display output, or 'encoding' to collect output.");
+  }
+
   if (typeof options === 'function') {
     callback = options as SpawnCallback;
     options = {};
