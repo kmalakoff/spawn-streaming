@@ -42,7 +42,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
       queue.defer(oo.bind(null, pipeline(cp.stderr, outputs.stderr, options, color), ['error', 'end', 'close', 'finish']));
     }
   }
-  queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: 'utf8' }));
+  queue.defer(spawn.worker.bind(null, cp, csOptions));
   queue.await((err: SpawnError) => {
     if (cp.stdout && process.stdout.getMaxListeners) {
       process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
