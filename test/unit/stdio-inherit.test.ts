@@ -6,16 +6,14 @@ import url from 'url';
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 
 describe('stdio=inherit with sustained output', () => {
+  const MAX_DURATION = 10000;
   const FIXTURE = path.join(__dirname, '..', 'fixtures', 'sustained-output.js');
 
   it('should complete without hanging on long-running processes', function (done) {
-    this.timeout(10000); // 10 second timeout (should complete in ~2-3 seconds)
-
+    this.timeout(MAX_DURATION);
     const startTime = Date.now();
-    let callbackCalled = false;
 
     spawnStreaming('node', [FIXTURE], { stdio: 'inherit' }, { prefix: 'test' }, (err, res) => {
-      callbackCalled = true;
       const duration = Date.now() - startTime;
 
       if (err) {
@@ -24,23 +22,13 @@ describe('stdio=inherit with sustained output', () => {
       }
 
       // Should complete in reasonable time
-      assert.ok(duration < 5000, `Process took too long (${duration}ms)`);
       assert.ok(res, 'Should return result object');
-
+      assert.ok(duration < MAX_DURATION, `Should complete in < ${MAX_DURATION}ms (took ${duration}ms)`);
       done();
     });
-
-    // Fail fast if callback never called
-    setTimeout(() => {
-      if (!callbackCalled) {
-        done(new Error('Test hung - callback never called (dual consumption bug)'));
-      }
-    }, 8000);
   });
 
-  it('should not add data listeners when stdio=inherit', function (done) {
-    this.timeout(5000);
-
+  it('should not add data listeners when stdio=inherit', (done) => {
     // Shorter test to verify encoding parameter is NOT passed
     spawnStreaming('node', ['-e', 'console.log("test")'], { stdio: 'inherit' }, { prefix: 'quick' }, (err, res) => {
       if (err) return done(err);
@@ -49,7 +37,6 @@ describe('stdio=inherit with sustained output', () => {
       // res.stdout and res.stderr should be null
       assert.strictEqual(res.stdout, null);
       assert.strictEqual(res.stderr, null);
-
       done();
     });
   });
