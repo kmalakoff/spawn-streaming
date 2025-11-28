@@ -42,9 +42,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
       queue.defer(oo.bind(null, pipeline(cp.stderr, outputs.stderr, options, color), ['error', 'end', 'close', 'finish']));
     }
   }
-  // FIX: Don't buffer output when stdio='inherit' - pipes are already consuming streams
-  // Adding data listeners to already-piped streams prevents 'close' event from firing
-  queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: stdio === 'inherit' ? undefined : 'utf8' }));
+  queue.defer(spawn.worker.bind(null, cp, { ...csOptions, encoding: 'utf8' }));
   queue.await((err: SpawnError) => {
     if (cp.stdout && process.stdout.getMaxListeners) {
       process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
