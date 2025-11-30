@@ -6,28 +6,27 @@ const Transform = major > 0 ? Stream.Transform : (StreamCompat.Transform as type
 
 import c from 'colors';
 import type { ColorFunction } from '../types.ts';
-
-const REGEX_NEW_LINE = /\r?\n|\r/g;
+import LineBuffer from './LineBuffer.ts';
 
 export default function prefixTransform(prefix: string, color: ColorFunction): NodeJS.ReadableStream {
-  let last = '';
+  const createLine = (line: string) => `${c.bold(color(prefix))}: ${line}\n`;
 
-  const createLine = (line) => `${c.bold(color(prefix))}: ${line}\n`;
+  let transform: InstanceType<typeof Transform>;
+  const lineBuffer = new LineBuffer((line) => {
+    transform.push(createLine(line));
+  });
 
-  return new Transform({
+  transform = new Transform({
     transform(chunk, _enc, callback) {
-      const more = last + chunk.toString('utf8');
-      const lines = more.split(REGEX_NEW_LINE);
-      last = lines.pop();
-      lines.forEach((line) => {
-        this.push(createLine(line));
-      });
+      lineBuffer.write(chunk);
       callback();
     },
     flush() {
-      if (last.length) this.push(createLine(last));
-      last = '';
+      lineBuffer.flush();
+      lineBuffer.dispose();
       this.push(null);
     },
   });
+
+  return transform;
 }
