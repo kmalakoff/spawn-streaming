@@ -1,1 +1,1 @@
-ignores: ["spawn-streaming"]
+ignores: ["node-version-use", "ts-dev-stack", "@biomejs/biome", "spawn-streaming"]
