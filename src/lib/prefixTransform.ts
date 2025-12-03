@@ -1,8 +1,12 @@
-import StreamCompat from 'readable-stream';
 import Stream from 'stream';
 
 const major = +process.versions.node.split('.')[0];
-const Transform = major > 0 ? Stream.Transform : (StreamCompat.Transform as typeof Stream.Transform);
+let Transform: typeof Stream.Transform;
+if (major > 0) {
+  Transform = Stream.Transform;
+} else {
+  Transform = require('readable-stream').Transform;
+}
 
 import c from 'colors';
 import type { ColorFunction } from '../types.ts';
