@@ -39,21 +39,21 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "colors": "*",
-    "cross-spawn-cb": "*",
-    "on-one": "*",
-    "queue-cb": "*",
+    "colors": "^1.4.0",
+    "cross-spawn-cb": "^2.4.12",
+    "on-one": "^1.0.8",
+    "queue-cb": "^1.6.1",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
-    "@types/mocha": "*",
-    "@types/node": "*",
-    "cr": "*",
-    "is-version": "*",
-    "node-version-use": "*",
-    "pinkie-promise": "*",
-    "ts-dev-stack": "*",
-    "tsds-config": "*"
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.0.1",
+    "cr": "^0.1.0",
+    "is-version": "^1.0.7",
+    "node-version-use": "^2.1.5",
+    "pinkie-promise": "^2.0.1",
+    "ts-dev-stack": "^1.21.3",
+    "tsds-config": "^0.2.1"
   },
   "engines": {
     "node": ">=0.8"
