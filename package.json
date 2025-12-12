@@ -41,15 +41,15 @@
   "dependencies": {
     "colors": "^1.4.0",
     "cross-spawn-cb": "^2.4.12",
-    "on-one": "^1.0.8",
-    "queue-cb": "^1.6.1",
+    "on-one": "^1.0.9",
+    "queue-cb": "^1.6.2",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.1",
     "cr": "^0.1.0",
-    "is-version": "^1.0.7",
+    "is-version": "^1.0.8",
     "node-version-use": "^2.1.5",
     "pinkie-promise": "^2.0.1",
     "ts-dev-stack": "^1.21.3",
