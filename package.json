@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.4.12",
+    "cross-spawn-cb": "^2.4.13",
     "on-one": "^1.0.9",
     "queue-cb": "^1.6.2",
     "readable-stream": "^2.3.8"
