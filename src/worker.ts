@@ -12,7 +12,7 @@ function pipeline(input, output, options, color) {
   return input.pipe(output);
 }
 
-export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options: StreamingOptions, callback: SpawnCallback): undefined {
+export default function spawnStreaming(command: string, args: string[], spawnOptions: SpawnOptions, options: StreamingOptions, callback: SpawnCallback): void {
   const { encoding, stdio, ...csOptions } = spawnOptions;
   const cp = crossSpawn(command, args, csOptions);
   const color = options.prefix ? nextColor() : null;
