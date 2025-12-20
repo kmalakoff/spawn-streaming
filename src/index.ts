@@ -7,11 +7,8 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
     throw new Error("Options 'stdio: inherit' and 'encoding' are mutually exclusive. Use 'stdio: inherit' to display output, or 'encoding' to collect output.");
   }
 
-  if (typeof options === 'function') {
-    callback = options as SpawnCallback;
-    options = {};
-  }
-  options = options || {};
+  callback = typeof options === 'function' ? options : callback;
+  options = typeof options === 'function' ? {} : ((options || {}) as StreamingOptions);
 
   if (typeof callback === 'function') return worker(command, args, spawnOptions, options, callback);
   return new Promise((resolve, reject) => worker(command, args, spawnOptions, options, (err, result) => (err ? reject(err) : resolve(result))));
