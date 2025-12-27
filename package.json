@@ -49,6 +49,7 @@
     "@types/mocha": "*",
     "@types/node": "*",
     "cr": "^0.1.0",
+    "exit-compat": "^1.0.4",
     "is-version": "^1.0.9",
     "node-version-use": "*",
     "pinkie-promise": "*",

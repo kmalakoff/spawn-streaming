@@ -1,35 +1,22 @@
-import Stream from 'stream';
-
-const major = +process.versions.node.split('.')[0];
-let Transform: typeof Stream.Transform;
-if (major > 0) {
-  Transform = Stream.Transform;
-} else {
-  Transform = require('readable-stream').Transform;
-}
-
 import c from 'colors';
 import type { ColorFunction } from '../types.ts';
-import LineBuffer from './LineBuffer.ts';
+import { ImmediateStrategy } from './terminal/strategies/ImmediateStrategy.ts';
+import TerminalTransform from './terminal/TerminalTransform.ts';
 
+/**
+ * Creates a transform stream that adds a colored prefix to each line
+ * Uses the new TerminalTransform with immediate emission strategy
+ */
 export default function prefixTransform(prefix: string, color: ColorFunction): NodeJS.ReadableStream {
   const createLine = (line: string) => `${c.bold(color(prefix))}: ${line}\n`;
 
-  let transform: InstanceType<typeof Transform>;
-  const lineBuffer = new LineBuffer((line) => {
-    transform.push(createLine(line));
+  const transform = new TerminalTransform({
+    strategy: new ImmediateStrategy(),
   });
 
-  transform = new Transform({
-    transform(chunk, _enc, callback) {
-      lineBuffer.write(chunk);
-      callback();
-    },
-    flush() {
-      lineBuffer.flush();
-      lineBuffer.dispose();
-      this.push(null);
-    },
+  // Use onLine callback to format and push lines
+  transform.onLine((line) => {
+    transform.push(createLine(line));
   });
 
   return transform;
