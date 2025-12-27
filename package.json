@@ -43,7 +43,8 @@
     "cross-spawn-cb": "^3.0.0",
     "on-one": "^1.0.0",
     "queue-cb": "^1.0.0",
-    "readable-stream": "^2.0.2"
+    "readable-stream": "^2.0.2",
+    "terminal-model": "^0.1.0"
   },
   "devDependencies": {
     "@types/mocha": "*",
