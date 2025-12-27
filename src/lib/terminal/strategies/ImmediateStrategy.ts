@@ -12,9 +12,10 @@ export class ImmediateStrategy implements LineEmissionStrategy {
     // No async emissions in immediate strategy
   }
 
-  onWrite(_terminal: StreamingTerminal, state: TerminalState): boolean {
-    // Emit immediately if we saw a newline
-    return state.hadNewline;
+  onWrite(_terminal: StreamingTerminal, _state: TerminalState): boolean {
+    // Lines are already emitted via lineReadyCallback during write()
+    // No additional emission needed from strategy
+    return false;
   }
 
   flush(): boolean {
