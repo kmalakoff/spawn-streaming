@@ -17,3 +17,15 @@ export const Readable: typeof import('stream').Readable = major > 0 ? _require('
 export const Writable: typeof import('stream').Writable = major > 0 ? _require('stream').Writable : _require('readable-stream').Writable;
 export const Transform: typeof import('stream').Transform = major > 0 ? _require('stream').Transform : _require('readable-stream').Transform;
 export const PassThrough: typeof import('stream').PassThrough = major > 0 ? _require('stream').PassThrough : _require('readable-stream').PassThrough;
+
+/**
+ * String.prototype.endsWith wrapper for Node.js 0.8+
+ * - Uses native endsWith on Node 4.0+ / ES2015+
+ * - Falls back to lastIndexOf on Node 0.8-3.x
+ */
+const hasEndsWith = typeof String.prototype.endsWith === 'function';
+export function stringEndsWith(str: string, search: string, position?: number): boolean {
+  if (hasEndsWith) return str.endsWith(search, position);
+  const len = position === undefined ? str.length : position;
+  return str.lastIndexOf(search) === len - search.length;
+}
