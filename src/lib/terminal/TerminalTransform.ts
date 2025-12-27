@@ -119,18 +119,18 @@ export default class TerminalTransform extends Transform {
    * Emit the current line from terminal
    */
   private emitCurrentLine(): void {
-    if (!this.terminal.hasContent()) {
-      return;
-    }
-
+    // Always render and emit, even for blank lines (preserves spacing)
     const line = this.terminal.renderLine();
     this.terminal.reset();
 
-    // Event API
+    // Event API - call callback if set
     if (this.lineCallback) {
       this.lineCallback(line);
     } else {
-      // Polling API - buffer the line
+      // No callback set - push to stream with newline (normal Transform behavior)
+      this.push(`${line}\n`);
+
+      // Also buffer for polling API
       this.pendingLines.push(line);
 
       // Prevent unbounded growth
