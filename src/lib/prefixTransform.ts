@@ -1,7 +1,6 @@
 import c from 'colors';
+import { ImmediateStrategy, TerminalTransform } from 'terminal-model';
 import type { ColorFunction } from '../types.ts';
-import { ImmediateStrategy } from './terminal/strategies/ImmediateStrategy.ts';
-import TerminalTransform from './terminal/TerminalTransform.ts';
 
 /**
  * Creates a transform stream that adds a colored prefix to each line
