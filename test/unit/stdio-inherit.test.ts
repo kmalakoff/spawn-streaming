@@ -14,14 +14,11 @@ describe('stdio=inherit with sustained output', () => {
     const startTime = Date.now();
 
     spawnStreaming('node', [FIXTURE], { stdio: 'inherit' }, { prefix: 'test' }, (err, res) => {
-      const duration = Date.now() - startTime;
-
-      if (err) {
-        done(new Error(`Process failed: ${err.message}`));
-        return;
-      }
+      if (err) return done(new Error(`Process failed: ${err.message}`));
 
       // Should complete in reasonable time
+      const duration = Date.now() - startTime;
+      if (!res) return done(new Error('No result'));
       assert.ok(res, 'Should return result object');
       assert.ok(duration < MAX_DURATION, `Should complete in < ${MAX_DURATION}ms (took ${duration}ms)`);
       done();
@@ -33,6 +30,7 @@ describe('stdio=inherit with sustained output', () => {
     spawnStreaming('node', ['-e', 'console.log("test")'], { stdio: 'inherit' }, { prefix: 'quick' }, (err, res) => {
       if (err) return done(err);
 
+      if (!res) return done(new Error('No result'));
       // When stdio=inherit, spawn.worker shouldn't buffer output
       // res.stdout and res.stderr should be null
       assert.strictEqual(res.stdout, null);

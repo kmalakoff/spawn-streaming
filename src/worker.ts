@@ -5,10 +5,19 @@ import concatWritable from './lib/concatWritable.ts';
 import nextColor from './lib/nextColor.ts';
 import prefixTransform from './lib/prefixTransform.ts';
 
-import type { SpawnCallback, SpawnOptions, StreamingOptions } from './types.ts';
+import type { ColorFunction, SpawnCallback, SpawnOptions, StreamingOptions } from './types.ts';
 
-function pipeline(input, output, options, color) {
-  if (options.prefix) return input.pipe(prefixTransform(options.prefix, color)).pipe(output);
+interface CapturedOutput {
+  stream: NodeJS.WritableStream;
+  output: string;
+}
+
+function pipeline(input: NodeJS.ReadableStream, output: NodeJS.WritableStream, options: StreamingOptions, color: ColorFunction | null) {
+  if (options.prefix && color) {
+    const transform = prefixTransform(options.prefix, color) as unknown as NodeJS.ReadableStream & NodeJS.WritableStream;
+    input.pipe(transform);
+    return transform.pipe(output);
+  }
   return input.pipe(output);
 }
 
@@ -16,7 +25,7 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
   const { encoding, stdio, ...csOptions } = spawnOptions;
   const cp = crossSpawn(command, args, csOptions);
   const color = options.prefix ? nextColor() : null;
-  const outputs = { stdout: null, stderr: null };
+  const outputs: { stdout: CapturedOutput | null; stderr: CapturedOutput | null } = { stdout: null, stderr: null };
 
   if (cp.stdout && process.stdout.getMaxListeners) {
     process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
@@ -27,32 +36,37 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
   if (cp.stdout) {
     if (stdio === 'inherit') pipeline(cp.stdout, process.stdout, options, color);
     else {
-      outputs.stdout = concatWritable((output) => {
-        outputs.stdout.output = output.toString(encoding || 'utf8');
+      const captured: CapturedOutput = { stream: null as unknown as NodeJS.WritableStream, output: '' };
+      captured.stream = concatWritable((output) => {
+        captured.output = output.toString(encoding || 'utf8');
       });
-      queue.defer(oo.bind(null, pipeline(cp.stdout, outputs.stdout, options, color), ['error', 'end', 'close', 'finish']));
+      outputs.stdout = captured;
+      queue.defer((cb) => oo(pipeline(cp.stdout!, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err ?? undefined)));
     }
   }
   if (cp.stderr) {
     if (stdio === 'inherit') pipeline(cp.stderr, process.stderr, options, color);
     else {
-      outputs.stderr = concatWritable((output) => {
-        outputs.stderr.output = output.toString(encoding || 'utf8');
+      const captured: CapturedOutput = { stream: null as unknown as NodeJS.WritableStream, output: '' };
+      captured.stream = concatWritable((output) => {
+        captured.output = output.toString(encoding || 'utf8');
       });
-      queue.defer(oo.bind(null, pipeline(cp.stderr, outputs.stderr, options, color), ['error', 'end', 'close', 'finish']));
+      outputs.stderr = captured;
+      queue.defer((cb) => oo(pipeline(cp.stderr!, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err ?? undefined)));
     }
   }
   queue.defer(spawn.worker.bind(null, cp, csOptions));
-  queue.await((err: SpawnError) => {
+  queue.await((err?: Error) => {
     if (cp.stdout && process.stdout.getMaxListeners) {
       process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
       process.stderr.setMaxListeners(process.stderr.getMaxListeners() - 1);
     }
 
-    const res = (err ? err : {}) as SpawnResult;
-    res.stdout = outputs.stdout ? outputs.stdout.output : null;
-    res.stderr = outputs.stderr ? outputs.stderr.output : null;
+    const spawnErr = err as SpawnError | undefined;
+    const res = (spawnErr ? spawnErr : {}) as SpawnResult;
+    res.stdout = (outputs.stdout ? outputs.stdout.output : null) as string | Buffer;
+    res.stderr = (outputs.stderr ? outputs.stderr.output : null) as string | Buffer;
     res.output = [res.stdout, res.stderr, null];
-    err ? callback(err) : callback(null, res);
+    spawnErr ? callback(spawnErr) : callback(undefined, res);
   });
 }

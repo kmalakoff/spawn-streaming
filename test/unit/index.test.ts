@@ -4,7 +4,7 @@ import Pinkie from 'pinkie-promise';
 import spawnStreaming from 'spawn-streaming';
 import getLines from '../lib/getLines.ts';
 
-const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
+const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE ?? '');
 const NODE = isWindows ? 'node.exe' : 'node';
 
 describe('index', () => {
@@ -22,10 +22,8 @@ describe('index', () => {
 
   it('inherit', (done) => {
     spawnStreaming(NODE, ['--version'], { stdio: 'inherit' }, (err, res) => {
-      if (err) {
-        done(err);
-        return;
-      }
+      if (err) return done(err);
+      if (!res) return done(new Error('No result'));
       assert.equal(res.stdout, null);
       assert.equal(res.stderr, null);
       done();
@@ -34,10 +32,8 @@ describe('index', () => {
 
   it('encoding utf8', (done) => {
     spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, (err, res) => {
-      if (err) {
-        done(err);
-        return;
-      }
+      if (err) return done(err);
+      if (!res) return done(new Error('No result'));
       assert.ok(isVersion(getLines(res.stdout).slice(-1)[0], 'v'));
       assert.equal(res.stderr, '');
       done();
@@ -46,10 +42,8 @@ describe('index', () => {
 
   it('encoding utf8', (done) => {
     spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, { prefix: 'boom' }, (err, res) => {
-      if (err) {
-        done(err);
-        return;
-      }
+      if (err) return done(err);
+      if (!res) return done(new Error('No result'));
       assert.ok(res.stdout.indexOf('boom') >= 0);
       assert.ok(isVersion(getLines(res.stdout).slice(-1)[0], 'v'));
       assert.equal(res.stderr, '');
