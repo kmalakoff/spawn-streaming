@@ -8,5 +8,5 @@ import type { ColorFunction } from '../types.ts';
 export default function nextColor(): ColorFunction {
   const colorName = colors[colorIndex % colors.length];
   colorIndex++;
-  return c[colorName];
+  return (c as unknown as Record<string, ColorFunction>)[colorName];
 }
