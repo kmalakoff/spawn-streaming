@@ -41,7 +41,8 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
         captured.output = output.toString(encoding || 'utf8');
       });
       outputs.stdout = captured;
-      queue.defer((cb) => oo(pipeline(cp.stdout!, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err ?? undefined)));
+      const stdout = cp.stdout;
+      queue.defer((cb) => oo(pipeline(stdout, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err)));
     }
   }
   if (cp.stderr) {
@@ -52,17 +53,18 @@ export default function spawnStreaming(command: string, args: string[], spawnOpt
         captured.output = output.toString(encoding || 'utf8');
       });
       outputs.stderr = captured;
-      queue.defer((cb) => oo(pipeline(cp.stderr!, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err ?? undefined)));
+      const stderr = cp.stderr;
+      queue.defer((cb) => oo(pipeline(stderr, captured.stream, options, color), ['error', 'end', 'close', 'finish'], (err: Error | null) => cb(err)));
     }
   }
   queue.defer(spawn.worker.bind(null, cp, csOptions));
-  queue.await((err?: Error) => {
+  queue.await((err?: Error | null) => {
     if (cp.stdout && process.stdout.getMaxListeners) {
       process.stdout.setMaxListeners(process.stdout.getMaxListeners() - 1);
       process.stderr.setMaxListeners(process.stderr.getMaxListeners() - 1);
     }
 
-    const spawnErr = err as SpawnError | undefined;
+    const spawnErr = err as SpawnError | null;
     const res = (spawnErr ? spawnErr : {}) as SpawnResult;
     res.stdout = (outputs.stdout ? outputs.stdout.output : null) as string | Buffer;
     res.stderr = (outputs.stderr ? outputs.stderr.output : null) as string | Buffer;
