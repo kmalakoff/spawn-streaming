@@ -1,4 +1,3 @@
-import eos from 'end-of-stream';
 import { Writable } from 'readable-stream';
 
 export default function concatWritable(callback) {
@@ -9,6 +8,6 @@ export default function concatWritable(callback) {
       next();
     },
   });
-  eos(stream, () => callback(Buffer.concat(chunks.splice(0))));
+  stream.on('finish', () => callback(Buffer.concat(chunks.splice(0))));
   return stream;
 }
