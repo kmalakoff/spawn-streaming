@@ -23,7 +23,7 @@ describe('index', () => {
   it('inherit', (done) => {
     spawnStreaming(NODE, ['--version'], { stdio: 'inherit' }, (err, res) => {
       if (err) {
-        done(err.message);
+        done(err);
         return;
       }
       assert.equal(res.stdout, null);
@@ -35,7 +35,7 @@ describe('index', () => {
   it('encoding utf8', (done) => {
     spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, (err, res) => {
       if (err) {
-        done(err.message);
+        done(err);
         return;
       }
       assert.ok(isVersion(getLines(res.stdout).slice(-1)[0], 'v'));
@@ -47,7 +47,7 @@ describe('index', () => {
   it('encoding utf8', (done) => {
     spawnStreaming(NODE, ['--version'], { encoding: 'utf8' }, { prefix: 'boom' }, (err, res) => {
       if (err) {
-        done(err.message);
+        done(err);
         return;
       }
       assert.ok(res.stdout.indexOf('boom') >= 0);
