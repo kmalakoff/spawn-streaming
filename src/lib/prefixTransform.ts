@@ -18,7 +18,7 @@ export default function prefixTransform(prefix: string, color: ColorFunction) {
       callback();
     },
     flush() {
-      if (last.length) this.queue(createLine(last));
+      if (last.length) this.push(createLine(last));
       last = '';
       this.push(null);
     },
