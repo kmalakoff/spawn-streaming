@@ -32,15 +32,15 @@
   "scripts": {
     "build": "tsds build",
     "format": "biome check --write --unsafe",
-    "test": "tsds test:node --no-timeouts",
-    "test:engines": "nvu engines npm test",
+    "test": "mocha --no-timeouts test/**/*.test.*",
+    "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "cross-spawn-cb": "^2.2.9",
-    "on-one": "^0.1.8",
-    "queue-cb": "^1.5.3",
+    "cross-spawn-cb": "^2.2.10",
+    "on-one": "^0.1.9",
+    "queue-cb": "^1.5.4",
     "readable-stream": "^2.3.8"
   },
   "devDependencies": {
